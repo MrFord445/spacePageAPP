@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <link rel="stylesheet" href="/index.css">
+  <link href="style.css" rel="stylesheet" type="text/css" />
+  <script src="code.js"></script>
+  <script src="dataLoader-1.js"></script>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="canonical" href="https://pwa.glitch.me/">
+  <link rel="shortcut icon" href="https://cdn.glitch.com/355b9f14-b08b-4590-9270-46454889b15e%2Ffavicon.ico?1495985662065">
+  <script src="index.js"></script>
+  <script>
+    // This is just to force HTTPS (can't do it statically on glitch)
+    if(location.protocol == 'http:') location.protocol = 'https:';
+    if('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('Service Worker registered', reg))
+        .catch(err => console.error('Service Worker **not** registered', err));
+    }
+    else {
+      console.warn('Service Worker not supported in this browser');
+    }    
+  </script>
+  <head>
+    <title>
+        UATSpace Page
+    </title>
+    <script>
+        //variables for the dom
+        var theTime = new Date();
+        var tempTime = new Date();
+        var time_interval = 5000;
+        var running = true;
+        var index = 0;
+        var timer;
+
+        //load data into array
+        var data = getData();
+
+        //function to load and display data
+        function updateDisplay() {
+            theTime = new Date();
+           
+            var timeRead = data[index].time_seconds;
+            if (timeRead >= 10) {
+                 console.log("upadateDispaly is running....")
+                document.getElementById("data").rows["seconds"].innerHTML = dataRow("Time Elasped", data[index].time_seconds, "seconds");
+                document.getElementById("data").rows["latitude"].innerHTML = dataRow("latitude", data[index].latitude, "");
+                document.getElementById("data").rows["longitude"].innerHTML = dataRow("longitude", data[index].longitude, "");
+                document.getElementById("data").rows["gps_altitude"].innerHTML = dataRow("gps altitude", data[index].gps_altitude, "");
+                document.getElementById("data").rows["bmpSensor_altitude"].innerHTML = dataRow("bmp sensor altitude", data[index].bmpSensor_altitude, "");
+                document.getElementById("data").rows["bmpSensor_pressure"].innerHTML = dataRow("bmp sensor pressure", data[index].bmpSensor_pressure, "");
+                document.getElementById("data").rows["bmpSensor_temp"].innerHTML = dataRow("bmp sensor temp", data[index].bmpSensor_temp, "");
+                document.getElementById("data").rows["digSensor_temp"].innerHTML = dataRow("dig sensor temp", data[index].digSensor_temp, "");
+                document.getElementById("data").rows["cssSensor_temp"].innerHTML = dataRow("css sensor temp", data[index].cssSensor_temp, "");
+                document.getElementById("data").rows["cssSensor_eCO2"].innerHTML = dataRow("cssSensor eCO2", data[index].cssSensor_eCO2, "");
+                document.getElementById("data").rows["cssSensor_TVOC"].innerHTML = dataRow("cssSensor_TVOC", data[index].cssSensor_TVOC, "");
+                document.getElementById("data").rows["UV"].innerHTML = dataRow("UV", data[index].UV, "");
+                document.getElementById("data").rows["accelX"].innerHTML = dataRow("accelX", data[index].accelX, "");
+                document.getElementById("data").rows["accelY"].innerHTML = dataRow("accelY", data[index].accelY, "");
+                document.getElementById("data").rows["accelZ"].innerHTML = dataRow("accelZ", data[index].accelZ, "");
+                document.getElementById("data").rows["magneticX"].innerHTML = dataRow("magneticX", data[index].magneticX, "");
+                document.getElementById("data").rows["magneticY"].innerHTML = dataRow("magneticY", data[index].magneticY, "");
+                document.getElementById("data").rows["magneticZ"].innerHTML = dataRow("magneticZ", data[index].magneticZ, "");
+                document.getElementById("data").rows["gyroX"].innerHTML = dataRow("gyroX", data[index].gyroX, "");
+                document.getElementById("data").rows["gyroY"].innerHTML = dataRow("gyroY", data[index].gyroY, "");
+                document.getElementById("data").rows["gyroZ"].innerHTML = dataRow("gyroZ", data[index].gyroZ, "");
+                if (index < 500) {
+                    index = index + 1;
+                } else index = 0;
+            }
+            document.getElementById("time").innerHTML = theTime.getHours() + ":" + (theTime.getMinutes() < 10 ? "0" + theTime.getMinutes() : theTime.getMinutes())
+                + ":" + (theTime.getSeconds() < 10 ? "0" + theTime.getSeconds() : theTime.getSeconds());
+
+            
+            
+
+        }
+
+
+
+    </script>
+</head>
+<body>
+   <table>
+        <tr>
+            <td> <img src="https://cdn.glitch.com/fd2582c5-2d19-4cf1-8286-ba9546fc672e%2FUATspaceLogo-2-1.jpg?v=1617825992757"</td>
+            <td>
+                <h1>
+                    UATSPACE program
+                </h1>
+            </td>
+        </tr>
+    </table>
+
+    <table id="data" border="2" width="70%" class="table2">
+        <col style="width: 35%;">
+        <col style="width: 35%;">
+        <thead>
+            <tr style="font-family: fantasy;">
+                <th align="left">Data type</th>
+                <th align="left">Reading</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr id="seconds"></tr>
+            <tr id="latitude"></tr>
+            <tr id="longitude"></tr>
+            <tr id="gps_altitude"></tr>
+            <tr id="bmpSensor_altitude"></tr>
+            <tr id="bmpSensor_pressure"></tr>
+            <tr id="bmpSensor_temp"></tr>
+            <tr id="digSensor_temp"></tr>
+            <tr id="cssSensor_temp"></tr>
+            <tr id="cssSensor_eCO2"></tr>
+            <tr id="cssSensor_TVOC"></tr>
+            <tr id="UV"></tr>
+            <tr id="accelX"></tr>
+            <tr id="accelY"></tr>
+            <tr id="accelZ"></tr>
+            <tr id="magneticX"></tr>
+            <tr id="magneticY"></tr>
+            <tr id="magneticZ"></tr>
+            <tr id="gyroX"></tr>
+            <tr id="gyroY"></tr>
+            <tr id="gyroZ"></tr>
+            
+        </tbody>
+    </table>
+    <br>
+    The Current Time is:<div id="time"></div> 
+    
+    <button onclick="start();" id="startButton" class="button">Start</button>
+    <button onclick="stop();" id="stopButton" class="button">Stop</button>
+    <button class="lgbutton" onclick="playStation()"> Play Space Station Sounds</button><br>
+    <button class="lgbutton" onclick="stopStation()"> Stop Space Station Sounds</button><br>
+    <button class="lgbutton" onclick="playJuice()">Play JUICEWRLD</button>
+    <h1>Play Craps game</h1>
+
+  <p>
+    Check out the code <a href="http://glitch.com/edit/#!/pwa">on glitch</a>.
+  </p>
+</body>
+</html>
